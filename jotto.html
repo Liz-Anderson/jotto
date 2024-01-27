@@ -16,19 +16,22 @@
             <main>
                 <p>{{message}}</p>
                 <p> {{alphabet}}</p>
-                <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
+                <div class="alphabet">
+                    <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
+                </div>
+                
 
-                <p>poop</p>
-                <input type="text" id="letterOne" onclick="$('#letterOne').focus();">
-                <!-- <div onclick="$('#letterOne').focus();"></div> -->
-                <input type="text" id="letterTwo" onclick="$('#letterTwo').focus();">
-                <!-- <div onclick="$('#letterTwo').focus();"></div> -->
-                <input type="text" id="letterThree" onclick="$('#letterThree').focus();">
-                <!-- <div onclick="$('#letterThree').focus();"></div> -->
-                <input type="text" id="letterFour" onclick="$('#letterFour').focus();">
-                <!-- <div onclick="$('#letterFour').focus();"></div> -->
-                <input type="text" id="letterFive" onclick="$('#letterFive').focus();">
-                <!-- <div onclick="$('#letterFive').focus();"></div> -->
+        
+                <input type="text" id="letterOne" v-model="input1" maxlength="1" @input="next" autocapitalize="characters">
+                
+                <input type="text" id="letterTwo" v-model="input2" maxlength="1" @input="next">
+               
+                <input type="text" id="letterThree" v-model="input3" maxlength="1" @input="next">
+                
+                <input type="text" id="letterFour" v-model="input4" maxlength="1" @input="next">
+                
+                <input type="text" id="letterFive" v-model="input5" maxlength="1" @input="next" >
+                
 
                 <button>ENTER</button>
 
