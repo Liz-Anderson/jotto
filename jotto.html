@@ -5,6 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Jotto</title>
+        <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"/>
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div id="app">
@@ -22,18 +24,18 @@
                 
 
         
-                <input type="text" id="letterOne" v-model="input1" maxlength="1" @input="next" autocapitalize="characters">
+                <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
                 
-                <input type="text" id="letterTwo" v-model="input2" maxlength="1" @input="next">
+                <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @input="next">
                
-                <input type="text" id="letterThree" v-model="input3" maxlength="1" @input="next">
+                <input type="text" class="letterInput" v-model="letterThree" maxlength="1" @keyup.delete="last" @input="next">
                 
-                <input type="text" id="letterFour" v-model="input4" maxlength="1" @input="next">
+                <input type="text" class="letterInput" v-model="letterFour" maxlength="1" @keyup.delete="last" @input="next">
                 
-                <input type="text" id="letterFive" v-model="input5" maxlength="1" @input="next" >
+                <input type="text" class="letterInput" v-model="letterFive" maxlength="1" @keyup.delete="last" @input="next">
                 
 
-                <button>ENTER</button>
+                <button @keyup.delete="last" @click="enter">ENTER</button>
 
             </main>
         </div>
