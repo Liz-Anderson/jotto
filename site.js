@@ -1,3 +1,5 @@
+
+
 const app = Vue.createApp({
     data() {
         return {
@@ -41,12 +43,62 @@ const app = Vue.createApp({
             console.log(e)
             // e.target?.delete()
             e.target?.previousSibling?.focus()
-            
+
         }
 
         
     }
 })
+
+
+
+
+app.component( 'word-input', {
+    data(){
+        return{
+            message: "poop",
+            letterOne: '',
+            letterTwo: '',
+            letterThree: '',
+            letterFour: '',
+            letterFive: '',
+        }
+    },
+    template:`
+        <p>{{ message }}</p>
+        <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
+            
+        <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @input="next">
+        
+        <input type="text" class="letterInput" v-model="letterThree" maxlength="1" @keyup.delete="last" @input="next">
+        
+        <input type="text" class="letterInput" v-model="letterFour" maxlength="1" @keyup.delete="last" @input="next">
+        
+        <input type="text" class="letterInput" v-model="letterFive" maxlength="1" @keyup.delete="last" @input="next">
+        
+
+        <button @keyup.delete="last" @click="enter">ENTER</button>
+    `,
+    methods: {
+        enter(){
+            console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
+
+
+        },
+        next(e) {
+            
+            e.target?.nextSibling?.focus()
+          },
+        last(e) {
+            console.log(e)
+            // e.target?.delete()
+            e.target?.previousSibling?.focus()
+
+        }
+    }
+    
+})
+
 
 app.mount('#app')
 

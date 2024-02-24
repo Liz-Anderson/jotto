@@ -22,7 +22,7 @@
                     <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
                 </div>
                 
-
+                <word-input></word-input>
         
                 <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
                 
