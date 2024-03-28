@@ -3,7 +3,6 @@
 const app = Vue.createApp({
     data() {
         return {
-            message: 'hello',
             alphabet: [
                 {name: 'A', pick: 0}, {name: 'B', pick: 0}, {name: 'C', pick: 0}, {name: 'D', pick: 0}, {name: 'E', pick: 0}, {name: 'F', pick: 0}, {name: 'G', pick: 0}, {name: 'H', pick: 0}, {name: 'I', pick: 0}, {name: 'J', pick: 0}, {name: 'K', pick: 0}, {name: 'L', pick: 0}, {name: 'M', pick: 0}, {name: 'N', pick: 0}, {name: 'O', pick: 0}, {name: 'P', pick: 0}, {name: 'Q', pick: 0}, {name: 'R', pick: 0}, {name: 'S', pick: 0}, {name: 'T', pick: 0}, {name: 'U', pick: 0}, {name: 'V', pick: 0}, {name: 'W', pick: 0}, {name: 'X', pick: 0}, {name: 'Y', pick: 0}, {name: 'Z', pick: 0}
             ],
@@ -12,6 +11,8 @@ const app = Vue.createApp({
             letterThree: '',
             letterFour: '',
             letterFive: '',
+            myWord: '',
+            clicked: 'myWord',
             
         }
 
@@ -56,7 +57,6 @@ const app = Vue.createApp({
 app.component( 'word-input', {
     data(){
         return{
-            message: "poop",
             letterOne: '',
             letterTwo: '',
             letterThree: '',
@@ -65,7 +65,6 @@ app.component( 'word-input', {
         }
     },
     template:`
-        <p>{{ message }}</p>
         <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
             
         <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @input="next">
@@ -81,6 +80,7 @@ app.component( 'word-input', {
     `,
     methods: {
         enter(){
+            // this.$emit figure this out
             console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
 
 

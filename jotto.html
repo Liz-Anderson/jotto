@@ -16,15 +16,35 @@
                 <h1>Jotto!</h1>
             </header>
             <main>
-                <p>{{message}}</p>
-                <p> {{alphabet}}</p>
-                <div class="alphabet">
-                    <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
+
+
+                <button class="myWord-button" @click="clicked = 'myWord'">My Word</button>
+                <button class="guessWord-button" @click="clicked = 'guessWord'">Opponent's Word</button>
+                <div class="myWord-container" v-show="clicked === 'myWord'">
+                    <h2>My Word</h2>
+                    <div class="wordChoice" v-if="myWord === ''">
+                        <h3>Choose a word for your opponenet to guess</h3>
+                        <word-input></word-input>
+                    </div>
+                    <div class="opponentGuesses" v-else>
+                        <word-input></word-input>
+                    </div>
+                    
+                </div>
+                <div class="guessWord-container" v-show="clicked === 'guessWord'">
+                    <h2>Guess Opponent's Word</h2>
+
+                    <p> {{alphabet}}</p>
+                    <div class="alphabet">
+                        <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
+                    </div>
+                    <word-input></word-input>
                 </div>
                 
-                <word-input></word-input>
+                
+                
         
-                <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
+                <!-- <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
                 
                 <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @input="next">
                
@@ -35,7 +55,7 @@
                 <input type="text" class="letterInput" v-model="letterFive" maxlength="1" @keyup.delete="last" @input="next">
                 
 
-                <button @keyup.delete="last" @click="enter">ENTER</button>
+                <button @keyup.delete="last" @click="enter">ENTER</button> -->
 
             </main>
         </div>
