@@ -12,6 +12,8 @@ const app = Vue.createApp({
             letterFour: '',
             letterFive: '',
             myWord: '',
+            myGuesses: [],
+            opponentsGuesses: [],
             clicked: 'myWord',
             
         }
@@ -25,8 +27,12 @@ const app = Vue.createApp({
                 letter.pick = 0
             }
         },
-        enter(){
-            console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
+        enterWord(payload){
+            // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
+
+            this.opponentsGuesses.push(payload)
+
+            console.log(`my opponent's guesses ${this.opponentsGuesses}`)
 
 
         },
@@ -62,9 +68,11 @@ app.component( 'word-input', {
             letterThree: '',
             letterFour: '',
             letterFive: '',
+            word: '',
         }
     },
     template:`
+        <p v-show="word !== ''">{{ word }}</p>
         <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
             
         <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @input="next">
@@ -76,12 +84,20 @@ app.component( 'word-input', {
         <input type="text" class="letterInput" v-model="letterFive" maxlength="1" @keyup.delete="last" @input="next">
         
 
-        <button @keyup.delete="last" @click="enter">ENTER</button>
+        <button @keyup.delete="last" @click="$emit('enter')">ENTER</button>
     `,
     methods: {
-        enter(){
-            // this.$emit figure this out
+        enterWord(){
+            // erroring in console extraneous emits
+            this.word = `${this.letterOne}${this.letterTwo}${this.letterThree}${this.letterFour}${this.letterFive}`
             console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
+            console.log(this.word)
+            this.$emit('enter', word)
+            this.letterOne = ''
+            this.letterTwo = ''
+            this.letterThree = ''
+            this.letterFour = ''
+            this.letterFive = ''
 
 
         },

@@ -24,7 +24,13 @@
                     <h2>My Word</h2>
                     <div class="wordChoice" v-if="myWord === ''">
                         <h3>Choose a word for your opponenet to guess</h3>
-                        <word-input></word-input>
+                        <word-input
+                            @enter="myWord = word"
+                        ></word-input>
+                        <br/>
+                        <word-input
+                            @enter="enterWord"
+                        ></word-input>
                     </div>
                     <div class="opponentGuesses" v-else>
                         <word-input></word-input>
