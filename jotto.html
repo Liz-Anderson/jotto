@@ -25,18 +25,31 @@
                     <div class="wordChoice" v-if="myWord === ''">
                         <h3>Choose a word for your opponenet to guess</h3>
                         <word-input
-                            @enter="myWord = word"
+                            @enter="enterWord"
                         ></word-input>
-                        <br/>
+                       
+                        <!-- <word-input
+                            @enter="enterWord"
+                        ></word-input> -->
+                    </div>
+                    <div class="opponentGuesses" v-else>
+                        <p>Target word: {{myWord}} </p>
+                        <div v-if="myWord !== ''">
+                            <ul v-for="word in opponentsGuesses">
+                                {{ word }}
+                            </ul>
+                        </div>
                         <word-input
                             @enter="enterWord"
                         ></word-input>
                     </div>
-                    <div class="opponentGuesses" v-else>
-                        <word-input></word-input>
-                    </div>
+                    <p>Opponent's guesses: {{ opponentsGuesses }}</p>
                     
                 </div>
+
+
+
+
                 <div class="guessWord-container" v-show="clicked === 'guessWord'">
                     <h2>Guess Opponent's Word</h2>
 
@@ -44,7 +57,12 @@
                     <div class="alphabet">
                         <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
                     </div>
-                    <word-input></word-input>
+                    <p>{{ myGuesses }}</p>
+                    <p>guess mystery word</p>
+                    <word-input
+                        @enter="enterWord" 
+                    ></word-input>
+
                 </div>
                 
                 
