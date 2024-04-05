@@ -36,7 +36,7 @@ const app = Vue.createApp({
                 console.log('my word from root is', this.myWord)
             } else if (this.myWord !== '' && this.clicked === 'myWord') {
                 this.opponentsGuesses.push(payload)
-                console.log('root opponent guesses my word', this.opponentGuesses)
+                console.log('root opponent guesses my word', this.opponentsGuesses)
                 console.log(`my opponent's guesses ${this.opponentsGuesses}`)
             } else {
                 console.log('payload:', typeof(payload))
@@ -67,9 +67,17 @@ const app = Vue.createApp({
             // e.target?.delete()
             e.target?.previousSibling?.focus()
 
+        },
+        focus() {
+            document.onload = function() {  
+                document.getElementById("input-one").focus();
+            }
         }
 
         
+    },
+    created: function() {
+        this.focus()
     }
 })
 
@@ -89,15 +97,15 @@ app.component( 'word-input', {
     },
     template:`
         <div>
-            <input type="text" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
+            <input type="text" class="letterInput" id="input-one" v-model="letterOne" maxlength="1" @input="next">
                 
-            <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @input="next">
+            <input type="text" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             
-            <input type="text" class="letterInput" v-model="letterThree" maxlength="1" @keyup.delete="last" @input="next">
+            <input type="text" class="letterInput" v-model="letterThree" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             
-            <input type="text" class="letterInput" v-model="letterFour" maxlength="1" @keyup.delete="last" @input="next">
+            <input type="text" class="letterInput" v-model="letterFour" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             
-            <input type="text" class="letterInput" v-model="letterFive" maxlength="1" @keyup.delete="last" @input="next">
+            <input type="text" class="letterInput" v-model="letterFive" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             
 
             <button @keyup.delete="last" @click="enterWord">ENTER</button>
@@ -105,7 +113,7 @@ app.component( 'word-input', {
     `,
     methods: {
         enterWord(){
-            // erroring in console extraneous emits
+            
             this.word = `${this.letterOne}${this.letterTwo}${this.letterThree}${this.letterFour}${this.letterFive}`
             // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
             console.log('I am in the component', this.word)
@@ -120,8 +128,14 @@ app.component( 'word-input', {
 
         },
         next(e) {
+            let regex = /^[a-zA-Z]+$/
+            console.log('this is the input event', e.data)
+            if (regex.test(e.data)){
+                e.target?.nextSibling?.focus()
+            } else {
+                console.log('try again')
+            }
             
-            e.target?.nextSibling?.focus()
           },
         last(e) {
             console.log(e)
@@ -135,6 +149,8 @@ app.component( 'word-input', {
 
 
 app.mount('#app')
+
+
 
 
 // const vm = new Vue({
