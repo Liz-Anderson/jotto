@@ -31,19 +31,24 @@ const app = Vue.createApp({
             console.log('payload:', typeof(payload))
             console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
 
-            if (this.myWord === '' && this.clicked === 'myWord'){
-                this.myWord = payload
-                console.log('my word from root is', this.myWord)
-            } else if (this.myWord !== '' && this.clicked === 'myWord') {
-                this.opponentsGuesses.push(payload)
-                console.log('root opponent guesses my word', this.opponentsGuesses)
-                console.log(`my opponent's guesses ${this.opponentsGuesses}`)
+            if (payload["word"] === ''){
+                alert("Please enter a word!")
             } else {
-                console.log('payload:', typeof(payload))
-                this.myGuesses.push(payload)
-                console.log('my guesses are', this.myGuesses)
-                console.log('my guess', payload)
+                if (this.myWord === '' && this.clicked === 'myWord'){
+                    this.myWord = payload["word"]
+                    console.log('my word from root is', this.myWord)
+                } else if (this.myWord !== '' && this.clicked === 'myWord') {
+                    this.opponentsGuesses.push(payload)
+                    console.log('root opponent guesses my word', this.opponentsGuesses)
+                    console.log(`my opponent's guesses ${this.opponentsGuesses}`)
+                } else {
+                    console.log('payload:', typeof(payload))
+                    this.myGuesses.push(payload)
+                    console.log('my guesses are', this.myGuesses)
+                    console.log('my guess', payload)
+                }
             }
+            
             // this.opponentsGuesses.push(payload)
             
             
@@ -76,7 +81,7 @@ const app = Vue.createApp({
 
         
     },
-    created: function() {
+    mounted: function() {
         this.focus()
     }
 })
@@ -93,6 +98,7 @@ app.component( 'word-input', {
             letterFour: '',
             letterFive: '',
             word: '',
+            id: 1,
         }
     },
     template:`
@@ -117,12 +123,13 @@ app.component( 'word-input', {
             this.word = `${this.letterOne}${this.letterTwo}${this.letterThree}${this.letterFour}${this.letterFive}`
             // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
             console.log('I am in the component', this.word)
-            this.$emit('enter', this.word)
+            this.$emit('enter', {id: this.id, word: this.word})
             this.letterOne = ''
             this.letterTwo = ''
             this.letterThree = ''
             this.letterFour = ''
             this.letterFive = ''
+            this.id++
             
 
 

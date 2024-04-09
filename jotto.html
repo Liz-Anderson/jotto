@@ -35,7 +35,7 @@
                     <div class="opponentGuesses" v-else>
                         <p>Target word: {{myWord}} </p>
                         <div v-if="myWord !== ''">
-                            <ul v-for="word in opponentsGuesses">
+                            <ul v-for="word in opponentsGuesses" :key="word.id">
                                 {{ word }}
                             </ul>
                         </div>
@@ -56,7 +56,7 @@
 
                     <p> {{alphabet}}</p>
                     <div class="alphabet">
-                        <button v-for="letter in alphabet" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
+                        <button v-for="letter in alphabet" :key="letter.name" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
                     </div>
                     <p>{{ myGuesses }}</p>
                     <p>guess mystery word</p>
