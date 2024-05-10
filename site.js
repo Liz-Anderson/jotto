@@ -28,45 +28,112 @@ const app = Vue.createApp({
                 letter.pick = 0
             }
         },
-        enterWord(payload){
-            console.log('payload:', typeof(payload))
-            // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
+
+        // checking if each letter in a word is unique
+        isUnique(word){
+            for (let i=0; i<word.length; i++) {
+                if ( word.indexOf(word[i]) !== word.lastIndexOf(word[i]) ) {
+                  return false
+                }
+              }
+            return true
+        },
+
+        // trying to work around the async of javascript
+        catchPayload(payload){
+            this.wordInfo = payload
+        },
+        // enterWord(payload){
+        //     console.log('payload:', typeof(payload))
+        //     console.log('payload word:', payload["word"])
+        //     // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
             
 
-            if (payload["word"] === ''){
-                alert("Please enter a word!")
+        //     if (payload["word"] === ''){
+        //         alert("Please enter a word!")
+        //     } else {
+        //         if (this.myWord === '' && this.clicked === 'myWord'){
+        //             this.myWord = payload["word"]
+        //             console.log('my word from root is', this.myWord)
+        //         } else if (this.myWord !== '' && this.clicked === 'myWord') {
+        //             for (let i=0; i < this.myWord.length; i++){
+        //                 console.log(i, this.myWord[i])
+
+        //                 if (this.myWord[i] === payload["word"][i]){
+        //                     this.wordInfo = payload
+        //                     console.log(this.myWord[i], "is a match!")
+        //                     // console.log("this is the wordInfo from the payload", this.wordInfo)
+
+        //                     // figure out why this isnt working
+
+        //                     this.wordInfo["letter"][i]["inWord"] = true
+        //                     // console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
+        //                 } else {
+        //                     console.log(payload["word"][i], "is NOT a match!")
+        //                 }
+        //             }
+        //             this.opponentsGuesses.push(payload)
+                    
+        //             console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
+        //         } else {
+        //             console.log('payload:', typeof(payload))
+        //             this.myGuesses.push(payload)
+        //             console.log('my guesses are', this.myGuesses)
+        //             console.log('my guess', payload)
+        //         }
+        //     }
+            
+        //     // this.opponentsGuesses.push(payload)
+            
+            
+
+            
+
+
+        // },
+        enterWord(payload){
+            console.log('payload:', typeof(payload))
+            console.log('payload word:', payload["word"])
+            // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
+            this.wordInfo = payload
+            console.log("is unique", this.isUnique(this.wordInfo["word"]))
+            
+
+            if (this.wordInfo["word"].length !== 5 || this.isUnique(this.wordInfo["word"]) === false){
+                alert("Please enter a five letter word where each letter is unique!")
             } else {
                 if (this.myWord === '' && this.clicked === 'myWord'){
-                    this.myWord = payload["word"]
+                    this.myWord = this.wordInfo["word"]
                     console.log('my word from root is', this.myWord)
                 } else if (this.myWord !== '' && this.clicked === 'myWord') {
                     for (let i=0; i < this.myWord.length; i++){
                         console.log(i, this.myWord[i])
-                        if (this.myWord[i] === payload["word"][i]){
+
+                        if (this.myWord[i] === this.wordInfo["word"][i]){
                             // this.wordInfo = payload
-                            // console.log(this.myWord[i], "is a match!")
+                            console.log(this.myWord[i], "is a match!")
                             // console.log("this is the wordInfo from the payload", this.wordInfo)
 
                             // figure out why this isnt working
 
-                            // this.wordInfo["letter"][i]["inWord"] = true
-                            console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
+                            this.wordInfo["letter"][i]["inWord"] = true
+                            // console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
                         } else {
-                            console.log(this.myWord[i], "is NOT a match!")
+                            console.log(this.wordInfo["word"][i], "is NOT a match!")
                         }
                     }
-                    this.opponentsGuesses.push(payload)
-                    console.log('root opponent guesses my word', JSON.stringify(this.opponentsGuesses))
+                    this.opponentsGuesses.push(this.wordInfo)
+                    
                     console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
                 } else {
                     console.log('payload:', typeof(payload))
-                    this.myGuesses.push(payload)
+                    this.myGuesses.push(this.wordInfo)
                     console.log('my guesses are', this.myGuesses)
                     console.log('my guess', payload)
                 }
             }
             
-            // this.opponentsGuesses.push(payload)
+            
             
             
 
@@ -74,6 +141,7 @@ const app = Vue.createApp({
 
 
         },
+
         next(e) {
             
             // let x = e.srcElement.id
