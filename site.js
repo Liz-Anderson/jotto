@@ -42,94 +42,55 @@ const app = Vue.createApp({
         // trying to work around the async of javascript
         catchPayload(payload){
             this.wordInfo = payload
+
+            this.enterWord(this.wordInfo)
         },
-        // enterWord(payload){
-        //     console.log('payload:', typeof(payload))
-        //     console.log('payload word:', payload["word"])
-        //     // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
-            
+        
+        enterWord(currentWord){
+           
+            console.log(currentWord, "this is the current word")
 
-        //     if (payload["word"] === ''){
-        //         alert("Please enter a word!")
-        //     } else {
-        //         if (this.myWord === '' && this.clicked === 'myWord'){
-        //             this.myWord = payload["word"]
-        //             console.log('my word from root is', this.myWord)
-        //         } else if (this.myWord !== '' && this.clicked === 'myWord') {
-        //             for (let i=0; i < this.myWord.length; i++){
-        //                 console.log(i, this.myWord[i])
+            // ***** fix it to where the target word has to be 5 letters, but guesses can be less
 
-        //                 if (this.myWord[i] === payload["word"][i]){
-        //                     this.wordInfo = payload
-        //                     console.log(this.myWord[i], "is a match!")
-        //                     // console.log("this is the wordInfo from the payload", this.wordInfo)
-
-        //                     // figure out why this isnt working
-
-        //                     this.wordInfo["letter"][i]["inWord"] = true
-        //                     // console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
-        //                 } else {
-        //                     console.log(payload["word"][i], "is NOT a match!")
-        //                 }
-        //             }
-        //             this.opponentsGuesses.push(payload)
-                    
-        //             console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
-        //         } else {
-        //             console.log('payload:', typeof(payload))
-        //             this.myGuesses.push(payload)
-        //             console.log('my guesses are', this.myGuesses)
-        //             console.log('my guess', payload)
-        //         }
-        //     }
-            
-        //     // this.opponentsGuesses.push(payload)
-            
-            
-
-            
-
-
-        // },
-        enterWord(payload){
-            console.log('payload:', typeof(payload))
-            console.log('payload word:', payload["word"])
-            // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
-            this.wordInfo = payload
-            console.log("is unique", this.isUnique(this.wordInfo["word"]))
-            
-
-            if (this.wordInfo["word"].length !== 5 || this.isUnique(this.wordInfo["word"]) === false){
+            if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false) {
+                // this alert happens if i try to create a target word that is not 5 letters long and has double letters
                 alert("Please enter a five letter word where each letter is unique!")
+
             } else {
                 if (this.myWord === '' && this.clicked === 'myWord'){
-                    this.myWord = this.wordInfo["word"]
+                    // this is where my secret target word gets saved
+                    this.myWord = currentWord["word"]
                     console.log('my word from root is', this.myWord)
+
                 } else if (this.myWord !== '' && this.clicked === 'myWord') {
-                    for (let i=0; i < this.myWord.length; i++){
-                        console.log(i, this.myWord[i])
+                    // this is where my opponent's guesses go to try and figure out my secret word
+                    if (currentWord["word"] === this.myWord){
+                        alert("You found the target word! Congrats!!")
 
-                        if (this.myWord[i] === this.wordInfo["word"][i]){
-                            // this.wordInfo = payload
-                            console.log(this.myWord[i], "is a match!")
-                            // console.log("this is the wordInfo from the payload", this.wordInfo)
-
-                            // figure out why this isnt working
-
-                            this.wordInfo["letter"][i]["inWord"] = true
-                            // console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
-                        } else {
-                            console.log(this.wordInfo["word"][i], "is NOT a match!")
+                    } else {
+                        for (letter of currentWord["word"]){
+                            if (this.myWord.includes(letter)){
+                                console.log(`The letter ${letter} is in the target word!`)
+                                console.log("This is the letter's index", currentWord["letters"][currentWord["word"].indexOf(letter)])
+                                currentWord["letters"][currentWord["word"].indexOf(letter)]["inWord"] = true
+                                console.log("I changed the data!", currentWord)
+    
+    
+                            } else {
+                                console.log(`Sorry! The letter ${letter} is NOT in the target word!`)
+                            }
                         }
                     }
-                    this.opponentsGuesses.push(this.wordInfo)
+                    
+                    this.opponentsGuesses.push(currentWord)
                     
                     console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
                 } else {
-                    console.log('payload:', typeof(payload))
-                    this.myGuesses.push(this.wordInfo)
+                    // these are my guesses of the secret word my opponent chose for me
+                    console.log('payload:', typeof(currentWord))
+                    this.myGuesses.push(currentWord)
                     console.log('my guesses are', this.myGuesses)
-                    console.log('my guess', payload)
+                    console.log('my guess', currentWord)
                 }
             }
             
@@ -166,6 +127,59 @@ const app = Vue.createApp({
 
         
     },
+    // watch: {
+    //     enterWord(payload){
+    //         // console.log('payload:', typeof(payload))
+    //         // console.log('payload word:', payload["word"])
+    //         // // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
+    //         // this.wordInfo = payload
+    //         // console.log("is unique", this.isUnique(this.wordInfo["word"]))
+    //         this.catchPayload(payload)
+    //         console.log(`${JSON.stringify(this.wordInfo)} catchPayload works!`)
+
+    //         if (this.wordInfo["word"].length !== 5 || this.isUnique(this.wordInfo["word"]) === false){
+    //             alert("Please enter a five letter word where each letter is unique!")
+    //         } else {
+    //             if (this.myWord === '' && this.clicked === 'myWord'){
+    //                 this.myWord = this.wordInfo["word"]
+    //                 console.log('my word from root is', this.myWord)
+    //             } else if (this.myWord !== '' && this.clicked === 'myWord') {
+    //                 for (let i=0; i < this.myWord.length; i++){
+    //                     console.log(i, this.myWord[i])
+
+    //                     if (this.myWord[i] === this.wordInfo["word"][i]){
+    //                         // this.wordInfo = payload
+    //                         console.log(this.myWord[i], "is a match!")
+    //                         // console.log("this is the wordInfo from the payload", this.wordInfo)
+
+    //                         // figure out why this isnt working
+
+    //                         this.wordInfo["letter"][i]["inWord"] = true
+    //                         // console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
+    //                     } else {
+    //                         console.log(this.wordInfo["word"][i], "is NOT a match!")
+    //                     }
+    //                 }
+    //                 this.opponentsGuesses.push(this.wordInfo)
+                    
+    //                 console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
+    //             } else {
+    //                 console.log('payload:', typeof(payload))
+    //                 this.myGuesses.push(this.wordInfo)
+    //                 console.log('my guesses are', this.myGuesses)
+    //                 console.log('my guess', payload)
+    //             }
+    //         }
+            
+            
+            
+            
+
+            
+
+
+    //     },
+    // },
     mounted: function() {
         this.focus()
     }
@@ -205,10 +219,10 @@ app.component( 'word-input', {
     methods: {
         enterWord(){
             
-            this.word = `${this.letterOne}${this.letterTwo}${this.letterThree}${this.letterFour}${this.letterFive}`
+            this.word = `${this.letterOne.toUpperCase()}${this.letterTwo.toUpperCase()}${this.letterThree.toUpperCase()}${this.letterFour.toUpperCase()}${this.letterFive.toUpperCase()}`
             // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
             console.log('I am in the component', this.word)
-            this.$emit('enter', {id: this.id, word: this.word, letters: [{letterOne: this.letterOne, inWord: false}, {letterTwo: this.letterTwo, inWord: false}, {letterThree: this.letterThree, inWord: false}, {letterFour: this.letterFour, inWord: false}, {letterFive: this.letterFive, inWord: false}] })
+            this.$emit('enter', {id: this.id, word: this.word, letters: [{letterOne: this.letterOne.toUpperCase(), inWord: false}, {letterTwo: this.letterTwo.toUpperCase(), inWord: false}, {letterThree: this.letterThree.toUpperCase(), inWord: false}, {letterFour: this.letterFour.toUpperCase(), inWord: false}, {letterFive: this.letterFive.toUpperCase(), inWord: false}] })
             this.letterOne = ''
             this.letterTwo = ''
             this.letterThree = ''
