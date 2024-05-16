@@ -39,6 +39,21 @@ const app = Vue.createApp({
             return true
         },
 
+        jottoRules(){
+            alert(`
+Jotto (or Giotto) is a code-breaking word game for two players. Each player picks and writes down a secret word and attempts to guess the other's word first during their turn.
+            
+Gameplay:
+
+Each player picks a secret word of five unique letters (no duplicate letters) and writes it down privately. Words must appear in a dictionary; generally no proper nouns are allowed. The object of the game is to correctly guess the other player's word first.
+
+Players take turns: on a player's turn, they guess a two to five letter word with no duplicate letters, and the other player announces how many letters in that guess match a unique letter in their secret word. For example, if the secret word is OTHER and the guess is PEACH, the E and H in PEACH match an E and an H in OTHER, so the announced result is "2". (Letters don't need to occur in the same position.) On the next turn, players reverse roles.
+
+Players keep track on paper of each guess and result, crossing out letters of the alphabet that (by deduction) cannot appear in the opponent's secret word. Eventually, one player has enough information to win by making a correct guess.
+
+            `)
+        },
+
         // trying to work around the async of javascript
         catchPayload(payload){
             this.wordInfo = payload
@@ -52,28 +67,52 @@ const app = Vue.createApp({
 
             // ***** fix it to where the target word has to be 5 letters, but guesses can be less
 
-            if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false) {
-                // this alert happens if i try to create a target word that is not 5 letters long and has double letters
-                alert("Please enter a five letter word where each letter is unique!")
+            // if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false) {
+            //     // this alert happens if i try to create a target word that is not 5 letters long and has double letters
+            //     alert("Please enter a five letter word where each letter is unique!")
 
-            } else {
+            // } else {
                 if (this.myWord === '' && this.clicked === 'myWord'){
                     // this is where my secret target word gets saved
-                    this.myWord = currentWord["word"]
+                    if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false) {
+                        // this alert happens if i try to create a target word that is not 5 letters long and has duplicate letters
+                        alert("Please enter a five letter word where each letter is unique!")
+                    } else {
+                        this.myWord = currentWord["word"]
                     console.log('my word from root is', this.myWord)
+                    }
+                    
 
                 } else if (this.myWord !== '' && this.clicked === 'myWord') {
+                    // checking to make sure a guess is 2-5 letters long, no duplicates, and hasnt been guessed already
+
+
+
+                    // ***** this needs to be figured out! trying to make sure you cannot guess the same word twice
+                    if (this.opponentsGuesses !== []){
+                        console.log("there is data in the opponentsGuesses")
+                        if (currentWord["word"] === this.opponentsGuesses.forEach((guess)=> guess["word"])) {
+                            // this alert happens if i guess the same word twice
+                            alert("You already guessed that word!")
+                        }
+                    } else if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false){
+                        // this alert happens if i try to create a target word that is not 5 letters long and has duplicate letters
+                        alert("Please enter a five letter word where each letter is unique!")
+                    }
                     // this is where my opponent's guesses go to try and figure out my secret word
                     if (currentWord["word"] === this.myWord){
                         alert("You found the target word! Congrats!!")
 
                     } else {
                         for (letter of currentWord["word"]){
+                            // this is checking if each letter is in the secret word and changing inWord to true
                             if (this.myWord.includes(letter)){
                                 console.log(`The letter ${letter} is in the target word!`)
                                 console.log("This is the letter's index", currentWord["letters"][currentWord["word"].indexOf(letter)])
                                 currentWord["letters"][currentWord["word"].indexOf(letter)]["inWord"] = true
                                 console.log("I changed the data!", currentWord)
+                                console.log(`Opponent's guesses ${this.opponentsGuesses}`)
+                                console.log(`this is supposed to be a check of forEach ${this.opponentsGuesses.forEach((guess)=> {guess["word"]})}`)
     
     
                             } else {
@@ -81,7 +120,7 @@ const app = Vue.createApp({
                             }
                         }
                     }
-                    
+                    // adds the current word to the opponentsGuesses array
                     this.opponentsGuesses.push(currentWord)
                     
                     console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
@@ -92,14 +131,7 @@ const app = Vue.createApp({
                     console.log('my guesses are', this.myGuesses)
                     console.log('my guess', currentWord)
                 }
-            }
-            
-            
-            
-            
-
-            
-
+            // }
 
         },
 
