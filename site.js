@@ -14,6 +14,7 @@ const app = Vue.createApp({
             wordInfo: [],
             myWord: '',
             opponentsGuesses: [],
+            opponentsGuessedWordArray: [],
             myGuesses: [],
             clicked: 'myWord',
             
@@ -101,6 +102,7 @@ Players keep track on paper of each guess and result, crossing out letters of th
                     }
                     // this is where my opponent's guesses go to try and figure out my secret word
                     if (currentWord["word"] === this.myWord){
+                        document.getElementById("opponents-guess").remove()
                         alert("You found the target word! Congrats!!")
 
                     } else {
@@ -122,8 +124,10 @@ Players keep track on paper of each guess and result, crossing out letters of th
                     }
                     // adds the current word to the opponentsGuesses array
                     this.opponentsGuesses.push(currentWord)
+                    this.opponentsGuessedWordArray.push(currentWord["word"])
                     
                     console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
+                    console.log(`array of guessed words ${this.opponentsGuessedWordArray}`)
                 } else {
                     // these are my guesses of the secret word my opponent chose for me
                     console.log('payload:', typeof(currentWord))
