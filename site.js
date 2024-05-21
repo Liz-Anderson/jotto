@@ -17,6 +17,7 @@ const app = Vue.createApp({
             opponentsGuessedWordArray: [],
             myGuesses: [],
             clicked: 'myWord',
+            numCorrectLetters: 0,
             
         }
 
@@ -38,6 +39,14 @@ const app = Vue.createApp({
                 }
               }
             return true
+        },
+
+        guessLength(word){
+            if (word.length >= 2 && word.length <= 5){
+                return true
+            } else {
+                return false
+            }
         },
 
         jottoRules(){
@@ -66,76 +75,70 @@ Players keep track on paper of each guess and result, crossing out letters of th
            
             console.log(currentWord, "this is the current word")
 
-            // ***** fix it to where the target word has to be 5 letters, but guesses can be less
+            // ------------------ secret word --------------------------------------------------------------
+            if (this.myWord === '' && this.clicked === 'myWord'){
+                // this is where my secret target word gets saved
+                if (currentWord["word"].length !== 5 ) {
+                    // this alert happens if i try to create a target word that is not 5 letters long and has duplicate letters
+                    alert("Please enter a five letter word!")
+                } else if (this.isUnique(currentWord["word"]) === false){
+                    alert("Please enter a word where there are no duplicate letters!")
+                } else {
+                    this.myWord = currentWord["word"]
+                console.log('my word from root is', this.myWord)
+                }
+            // ------------------- opponent's guesses -------------------------------------------------------   
+            } else if (this.myWord !== '' && this.clicked === 'myWord') {
+                
+                // this is where my opponent's guesses go to try and figure out my secret word
+                if (currentWord["word"] === this.myWord){
+                    document.getElementById("opponents-guess").remove()
+                    alert("You found the target word! Congrats!!")
 
-            // if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false) {
-            //     // this alert happens if i try to create a target word that is not 5 letters long and has double letters
-            //     alert("Please enter a five letter word where each letter is unique!")
-
-            // } else {
-                if (this.myWord === '' && this.clicked === 'myWord'){
-                    // this is where my secret target word gets saved
-                    if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false) {
-                        // this alert happens if i try to create a target word that is not 5 letters long and has duplicate letters
-                        alert("Please enter a five letter word where each letter is unique!")
-                    } else {
-                        this.myWord = currentWord["word"]
-                    console.log('my word from root is', this.myWord)
-                    }
+                } else if (this.opponentsGuessedWordArray.includes(currentWord["word"])){
+                    console.log("There is something in the opponentsGuessedWordArray!", this.opponentsGuessedWordArray, currentWord["word"])
+                    alert("You already guesses that word!")
                     
+                } else if (this.guessLength(currentWord["word"]) === false){
+                    alert("Please enter a guess that is 2 - 5 letters long!")
+                } else if (this.isUnique(currentWord["word"]) === false){
+                    alert("Please enter a word where there are no duplicate letters!")
+                } else {
+                    for (letter of currentWord["word"]){
+                        // this is checking if each letter is in the secret word and changing inWord to true
+                        if (this.myWord.includes(letter)){
+                            console.log(`The letter ${letter} is in the target word!`)
+                            console.log("This is the letter's index", currentWord["letters"][currentWord["word"].indexOf(letter)])
+                            currentWord["letters"][currentWord["word"].indexOf(letter)]["inWord"] = true
+                            this.numCorrectLetters += 1
+                            console.log("I changed the data!", currentWord)
+                            console.log(`Opponent's guesses ${this.opponentsGuesses}`)
+                            // console.log(`this is supposed to be a check of forEach ${this.opponentsGuesses.forEach((guess)=> {guess["word"]})}`)
 
-                } else if (this.myWord !== '' && this.clicked === 'myWord') {
-                    // checking to make sure a guess is 2-5 letters long, no duplicates, and hasnt been guessed already
-
-
-
-                    // ***** this needs to be figured out! trying to make sure you cannot guess the same word twice
-                    if (this.opponentsGuesses !== []){
-                        console.log("there is data in the opponentsGuesses")
-                        if (currentWord["word"] === this.opponentsGuesses.forEach((guess)=> guess["word"])) {
-                            // this alert happens if i guess the same word twice
-                            alert("You already guessed that word!")
-                        }
-                    } else if (currentWord["word"].length !== 5 || this.isUnique(currentWord["word"]) === false){
-                        // this alert happens if i try to create a target word that is not 5 letters long and has duplicate letters
-                        alert("Please enter a five letter word where each letter is unique!")
-                    }
-                    // this is where my opponent's guesses go to try and figure out my secret word
-                    if (currentWord["word"] === this.myWord){
-                        document.getElementById("opponents-guess").remove()
-                        alert("You found the target word! Congrats!!")
-
-                    } else {
-                        for (letter of currentWord["word"]){
-                            // this is checking if each letter is in the secret word and changing inWord to true
-                            if (this.myWord.includes(letter)){
-                                console.log(`The letter ${letter} is in the target word!`)
-                                console.log("This is the letter's index", currentWord["letters"][currentWord["word"].indexOf(letter)])
-                                currentWord["letters"][currentWord["word"].indexOf(letter)]["inWord"] = true
-                                console.log("I changed the data!", currentWord)
-                                console.log(`Opponent's guesses ${this.opponentsGuesses}`)
-                                console.log(`this is supposed to be a check of forEach ${this.opponentsGuesses.forEach((guess)=> {guess["word"]})}`)
-    
-    
-                            } else {
-                                console.log(`Sorry! The letter ${letter} is NOT in the target word!`)
-                            }
+                        
+                        } else {
+                            console.log(`Sorry! The letter ${letter} is NOT in the target word!`)
                         }
                     }
+                    console.log("you have", this.numCorrectLetters, "correct!")
                     // adds the current word to the opponentsGuesses array
                     this.opponentsGuesses.push(currentWord)
                     this.opponentsGuessedWordArray.push(currentWord["word"])
-                    
-                    console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
-                    console.log(`array of guessed words ${this.opponentsGuessedWordArray}`)
-                } else {
-                    // these are my guesses of the secret word my opponent chose for me
-                    console.log('payload:', typeof(currentWord))
-                    this.myGuesses.push(currentWord)
-                    console.log('my guesses are', this.myGuesses)
-                    console.log('my guess', currentWord)
+                    this.numCorrectLetters = 0
                 }
-            // }
+                
+                
+                console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
+                console.log(`array of guessed words ${this.opponentsGuessedWordArray}`)
+            
+            // -------------------- my guesses --------------------------------------------
+            } else {
+                // these are my guesses of the secret word my opponent chose for me
+                console.log('payload:', typeof(currentWord))
+                this.myGuesses.push(currentWord)
+                console.log('my guesses are', this.myGuesses)
+                console.log('my guess', currentWord)
+            }
 
         },
 
