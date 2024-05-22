@@ -17,7 +17,7 @@ const app = Vue.createApp({
             opponentsGuessedWordArray: [],
             myGuesses: [],
             clicked: 'myWord',
-            numCorrectLetters: 0,
+            // numCorrectLetters: 0,
             
         }
 
@@ -72,6 +72,7 @@ Players keep track on paper of each guess and result, crossing out letters of th
         },
         
         enterWord(currentWord){
+            // this.numCorrectLetters = 0
            
             console.log(currentWord, "this is the current word")
 
@@ -95,14 +96,20 @@ Players keep track on paper of each guess and result, crossing out letters of th
                     document.getElementById("opponents-guess").remove()
                     alert("You found the target word! Congrats!!")
 
+                // alert for guessing same word twice
                 } else if (this.opponentsGuessedWordArray.includes(currentWord["word"])){
                     console.log("There is something in the opponentsGuessedWordArray!", this.opponentsGuessedWordArray, currentWord["word"])
                     alert("You already guesses that word!")
-                    
+
+                // alert for guessing a word that is not between 2-5 letters long
                 } else if (this.guessLength(currentWord["word"]) === false){
                     alert("Please enter a guess that is 2 - 5 letters long!")
+
+                // alert if the guessed word has duplicate letters
                 } else if (this.isUnique(currentWord["word"]) === false){
                     alert("Please enter a word where there are no duplicate letters!")
+
+
                 } else {
                     for (letter of currentWord["word"]){
                         // this is checking if each letter is in the secret word and changing inWord to true
@@ -110,7 +117,7 @@ Players keep track on paper of each guess and result, crossing out letters of th
                             console.log(`The letter ${letter} is in the target word!`)
                             console.log("This is the letter's index", currentWord["letters"][currentWord["word"].indexOf(letter)])
                             currentWord["letters"][currentWord["word"].indexOf(letter)]["inWord"] = true
-                            this.numCorrectLetters += 1
+                            currentWord["numCorrectLetters"] += 1
                             console.log("I changed the data!", currentWord)
                             console.log(`Opponent's guesses ${this.opponentsGuesses}`)
                             // console.log(`this is supposed to be a check of forEach ${this.opponentsGuesses.forEach((guess)=> {guess["word"]})}`)
@@ -121,10 +128,10 @@ Players keep track on paper of each guess and result, crossing out letters of th
                         }
                     }
                     console.log("you have", this.numCorrectLetters, "correct!")
-                    // adds the current word to the opponentsGuesses array
+                    // adds the current word to the opponentsGuesses array, the opponentsGuessedWordArray, and zeros out the correct num 
                     this.opponentsGuesses.push(currentWord)
                     this.opponentsGuessedWordArray.push(currentWord["word"])
-                    this.numCorrectLetters = 0
+                    
                 }
                 
                 
@@ -237,6 +244,7 @@ app.component( 'word-input', {
             letterFive: '',
             word: '',
             id: 1,
+            numCorrectLetters: 0,
         }
     },
     template:`
@@ -261,7 +269,7 @@ app.component( 'word-input', {
             this.word = `${this.letterOne.toUpperCase()}${this.letterTwo.toUpperCase()}${this.letterThree.toUpperCase()}${this.letterFour.toUpperCase()}${this.letterFive.toUpperCase()}`
             // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive}`)
             console.log('I am in the component', this.word)
-            this.$emit('enter', {id: this.id, word: this.word, letters: [{letterOne: this.letterOne.toUpperCase(), inWord: false}, {letterTwo: this.letterTwo.toUpperCase(), inWord: false}, {letterThree: this.letterThree.toUpperCase(), inWord: false}, {letterFour: this.letterFour.toUpperCase(), inWord: false}, {letterFive: this.letterFive.toUpperCase(), inWord: false}] })
+            this.$emit('enter', {id: this.id, word: this.word, letters: [{letterOne: this.letterOne.toUpperCase(), inWord: false}, {letterTwo: this.letterTwo.toUpperCase(), inWord: false}, {letterThree: this.letterThree.toUpperCase(), inWord: false}, {letterFour: this.letterFour.toUpperCase(), inWord: false}, {letterFive: this.letterFive.toUpperCase(), inWord: false}], numCorrectLetters: this.numCorrectLetters})
             this.letterOne = ''
             this.letterTwo = ''
             this.letterThree = ''

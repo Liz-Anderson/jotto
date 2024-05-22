@@ -38,7 +38,7 @@
                         <p>Secret word: {{myWord}} </p>
                         <div v-if="myWord !== ''">
                             <ul v-for="word in opponentsGuesses" :key="word.id">
-                                {{ word }}
+                                {{ word.word }} - {{ word.numCorrectLetters }}
                             </ul>
                         </div>
                         <word-input id="opponents-guess"
