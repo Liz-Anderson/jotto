@@ -49,6 +49,10 @@ const app = Vue.createApp({
             }
         },
 
+        focusInputOne(){
+            document.getElementById("input1").focus()
+        },
+
         jottoRules(){
             alert(`
 Jotto (or Giotto) is a code-breaking word game for two players. Each player picks and writes down a secret word and attempts to guess the other's word first during their turn.
@@ -82,8 +86,10 @@ Players keep track on paper of each guess and result, crossing out letters of th
                 if (currentWord["word"].length !== 5 ) {
                     // this alert happens if i try to create a target word that is not 5 letters long and has duplicate letters
                     alert("Please enter a five letter word!")
+                    this.focusInputOne()
                 } else if (this.isUnique(currentWord["word"]) === false){
                     alert("Please enter a word where there are no duplicate letters!")
+                    this.focusInputOne()
                 } else {
                     this.myWord = currentWord["word"]
                 console.log('my word from root is', this.myWord)
@@ -91,23 +97,28 @@ Players keep track on paper of each guess and result, crossing out letters of th
             // ------------------- opponent's guesses -------------------------------------------------------   
             } else if (this.myWord !== '' && this.clicked === 'myWord') {
                 
-                // this is where my opponent's guesses go to try and figure out my secret word
-                if (currentWord["word"] === this.myWord){
-                    document.getElementById("opponents-guess").remove()
-                    alert("You found the target word! Congrats!!")
+                // // this is where my opponent's guesses go to try and figure out my secret word
+                // if (currentWord["word"] === this.myWord){
+                //     document.getElementById("opponents-guess").remove()
+                //     this.opponentsGuesses.push(currentWord)
+                //     this.opponentsGuessedWordArray.push(currentWord["word"])
+                //     alert("You found the target word! Congrats!!")
 
                 // alert for guessing same word twice
-                } else if (this.opponentsGuessedWordArray.includes(currentWord["word"])){
+                if (this.opponentsGuessedWordArray.includes(currentWord["word"])){
                     console.log("There is something in the opponentsGuessedWordArray!", this.opponentsGuessedWordArray, currentWord["word"])
                     alert("You already guesses that word!")
+                    this.focusInputOne()
 
                 // alert for guessing a word that is not between 2-5 letters long
                 } else if (this.guessLength(currentWord["word"]) === false){
                     alert("Please enter a guess that is 2 - 5 letters long!")
+                    this.focusInputOne()
 
                 // alert if the guessed word has duplicate letters
                 } else if (this.isUnique(currentWord["word"]) === false){
                     alert("Please enter a word where there are no duplicate letters!")
+                    this.focusInputOne()
 
 
                 } else {
@@ -127,10 +138,17 @@ Players keep track on paper of each guess and result, crossing out letters of th
                             console.log(`Sorry! The letter ${letter} is NOT in the target word!`)
                         }
                     }
-                    console.log("you have", this.numCorrectLetters, "correct!")
-                    // adds the current word to the opponentsGuesses array, the opponentsGuessedWordArray, and zeros out the correct num 
+
+                    
+                    // this is where my opponent's guesses go to try and figure out my secret word
+                    if (currentWord["word"] === this.myWord){
+                        document.getElementById("opponents-guess").remove()
+                        alert("You found the target word! Congrats!!")
+                    }
+                    // adds the current word to the opponentsGuesses array, the opponentsGuessedWordArray 
                     this.opponentsGuesses.push(currentWord)
                     this.opponentsGuessedWordArray.push(currentWord["word"])
+                    console.log("you have", currentWord["numCorrectLetters"], "correct!")
                     
                 }
                 
@@ -146,6 +164,7 @@ Players keep track on paper of each guess and result, crossing out letters of th
                 console.log('my guesses are', this.myGuesses)
                 console.log('my guess', currentWord)
             }
+            this.focusInputOne()
 
         },
 
@@ -249,7 +268,7 @@ app.component( 'word-input', {
     },
     template:`
         <div>
-            <input type="text" name="letterOne" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
+            <input type="text" name="letterOne" id="input1" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
                 
             <input type="text" name="letterTwo" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             

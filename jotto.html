@@ -44,6 +44,9 @@
                         <word-input id="opponents-guess"
                             @enter="enterWord"
                         ></word-input>
+                        <div v-if="myWord !== wordInfo.word">
+                            <p>You guessed the secret word in {{ opponentsGuessedWordArray.length}} guess(es)!!</p>
+                        </div>
                         <p>Opponent's guesses: {{ opponentsGuesses }}</p>
                     </div>
                     
