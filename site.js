@@ -6,18 +6,12 @@ const app = Vue.createApp({
             alphabet: [
                 {name: 'A', pick: 0}, {name: 'B', pick: 0}, {name: 'C', pick: 0}, {name: 'D', pick: 0}, {name: 'E', pick: 0}, {name: 'F', pick: 0}, {name: 'G', pick: 0}, {name: 'H', pick: 0}, {name: 'I', pick: 0}, {name: 'J', pick: 0}, {name: 'K', pick: 0}, {name: 'L', pick: 0}, {name: 'M', pick: 0}, {name: 'N', pick: 0}, {name: 'O', pick: 0}, {name: 'P', pick: 0}, {name: 'Q', pick: 0}, {name: 'R', pick: 0}, {name: 'S', pick: 0}, {name: 'T', pick: 0}, {name: 'U', pick: 0}, {name: 'V', pick: 0}, {name: 'W', pick: 0}, {name: 'X', pick: 0}, {name: 'Y', pick: 0}, {name: 'Z', pick: 0}
             ],
-            // letterOne: '',
-            // letterTwo: '',
-            // letterThree: '',
-            // letterFour: '',
-            // letterFive: '',
             wordInfo: [],
             myWord: '',
             opponentsGuesses: [],
             opponentsGuessedWordArray: [],
             myGuesses: [],
             clicked: 'myWord',
-            // numCorrectLetters: 0,
             
         }
 
@@ -41,6 +35,7 @@ const app = Vue.createApp({
             return true
         },
 
+        // making sure each guess is 2-5 letters long
         guessLength(word){
             if (word.length >= 2 && word.length <= 5){
                 return true
@@ -97,12 +92,8 @@ Players keep track on paper of each guess and result, crossing out letters of th
             // ------------------- opponent's guesses -------------------------------------------------------   
             } else if (this.myWord !== '' && this.clicked === 'myWord') {
                 
-                // // this is where my opponent's guesses go to try and figure out my secret word
-                // if (currentWord["word"] === this.myWord){
-                //     document.getElementById("opponents-guess").remove()
-                //     this.opponentsGuesses.push(currentWord)
-                //     this.opponentsGuessedWordArray.push(currentWord["word"])
-                //     alert("You found the target word! Congrats!!")
+                // this is where my opponent's guesses go to try and figure out my secret word
+
 
                 // alert for guessing same word twice
                 if (this.opponentsGuessedWordArray.includes(currentWord["word"])){
@@ -131,7 +122,6 @@ Players keep track on paper of each guess and result, crossing out letters of th
                             currentWord["numCorrectLetters"] += 1
                             console.log("I changed the data!", currentWord)
                             console.log(`Opponent's guesses ${this.opponentsGuesses}`)
-                            // console.log(`this is supposed to be a check of forEach ${this.opponentsGuesses.forEach((guess)=> {guess["word"]})}`)
 
                         
                         } else {
@@ -170,14 +160,9 @@ Players keep track on paper of each guess and result, crossing out letters of th
 
         next(e) {
             
-            // let x = e.srcElement.id
-            // let id = `this.${x}`
-            // console.log(id)
-            // id = e.data.toUpperCase()
-            // console.log(id)
-            
             e.target?.nextSibling?.focus()
           },
+
         last(e) {
             // console.log(e)
             // e.target?.delete()
@@ -192,59 +177,6 @@ Players keep track on paper of each guess and result, crossing out letters of th
 
         
     },
-    // watch: {
-    //     enterWord(payload){
-    //         // console.log('payload:', typeof(payload))
-    //         // console.log('payload word:', payload["word"])
-    //         // // console.log(`I entered letters ${this.letterOne}, ${this.letterTwo}, ${this.letterThree}, ${this.letterFour}, and ${this.letterFive} in the root`)
-    //         // this.wordInfo = payload
-    //         // console.log("is unique", this.isUnique(this.wordInfo["word"]))
-    //         this.catchPayload(payload)
-    //         console.log(`${JSON.stringify(this.wordInfo)} catchPayload works!`)
-
-    //         if (this.wordInfo["word"].length !== 5 || this.isUnique(this.wordInfo["word"]) === false){
-    //             alert("Please enter a five letter word where each letter is unique!")
-    //         } else {
-    //             if (this.myWord === '' && this.clicked === 'myWord'){
-    //                 this.myWord = this.wordInfo["word"]
-    //                 console.log('my word from root is', this.myWord)
-    //             } else if (this.myWord !== '' && this.clicked === 'myWord') {
-    //                 for (let i=0; i < this.myWord.length; i++){
-    //                     console.log(i, this.myWord[i])
-
-    //                     if (this.myWord[i] === this.wordInfo["word"][i]){
-    //                         // this.wordInfo = payload
-    //                         console.log(this.myWord[i], "is a match!")
-    //                         // console.log("this is the wordInfo from the payload", this.wordInfo)
-
-    //                         // figure out why this isnt working
-
-    //                         this.wordInfo["letter"][i]["inWord"] = true
-    //                         // console.log('should say true', this.wordInfo["letters"][i]["inWord"] === false)
-    //                     } else {
-    //                         console.log(this.wordInfo["word"][i], "is NOT a match!")
-    //                     }
-    //                 }
-    //                 this.opponentsGuesses.push(this.wordInfo)
-                    
-    //                 console.log(`my opponent's guesses ${JSON.stringify(this.opponentsGuesses)} in the root`)
-    //             } else {
-    //                 console.log('payload:', typeof(payload))
-    //                 this.myGuesses.push(this.wordInfo)
-    //                 console.log('my guesses are', this.myGuesses)
-    //                 console.log('my guess', payload)
-    //             }
-    //         }
-            
-            
-            
-            
-
-            
-
-
-    //     },
-    // },
     mounted: function() {
         this.focus()
     }
