@@ -37,14 +37,16 @@
                     <div class="opponentGuesses" v-else>
                         <p>Secret word: {{myWord}} </p>
                         <div v-if="myWord !== ''">
-                            <ul v-for="word in opponentsGuesses" :key="word.id">
-                                {{ word.word }} - {{ word.numCorrectLetters }}
-                            </ul>
+                            <ol v-for="word in opponentsGuesses" :key="word.id">
+                                <li>{{ word.word }} - {{ word.numCorrectLetters }}</li>
+                            </ol>
                         </div>
                         <word-input id="opponents-guess"
                             @enter="enterWord"
                         ></word-input>
-                        <div v-if="myWord !== wordInfo.word">
+                        <p>this is the word info: {{currentWord}}</p>
+                        <p>this is the target word {{ myWord}} </p>
+                        <div v-if="myWord === currentWord">
                             <p>You guessed the secret word in {{ opponentsGuessedWordArray.length}} guess(es)!!</p>
                         </div>
                         <p>Opponent's guesses: {{ opponentsGuesses }}</p>

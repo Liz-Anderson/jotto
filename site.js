@@ -12,6 +12,7 @@ const app = Vue.createApp({
             opponentsGuessedWordArray: [],
             myGuesses: [],
             clicked: 'myWord',
+            currentWord: '',
             
         }
 
@@ -66,13 +67,14 @@ Players keep track on paper of each guess and result, crossing out letters of th
         // trying to work around the async of javascript
         catchPayload(payload){
             this.wordInfo = payload
-
+            console.log("poop")
             this.enterWord(this.wordInfo)
+            console.log("word info", this.wordInfo)
         },
         
         enterWord(currentWord){
             // this.numCorrectLetters = 0
-           
+            console.log("peeep!")
             console.log(currentWord, "this is the current word")
 
             // ------------------ secret word --------------------------------------------------------------
@@ -154,6 +156,7 @@ Players keep track on paper of each guess and result, crossing out letters of th
                 console.log('my guesses are', this.myGuesses)
                 console.log('my guess', currentWord)
             }
+            this.currentWord = currentWord["word"]
             this.focusInputOne()
 
         },
