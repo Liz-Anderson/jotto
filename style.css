@@ -1,5 +1,6 @@
 body {
     background-color: rgb(112, 164, 164);
+    touch-action: manipulation;
 }
 
 .letterInput {
