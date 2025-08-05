@@ -1,4 +1,5 @@
 .letterInput {
+    width: 20px;
     text-transform: uppercase;
     /* pointer-events: none; */
 }

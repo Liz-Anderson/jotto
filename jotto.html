@@ -22,9 +22,12 @@
 
                 <button class="myWord-button" @click="clicked = 'myWord'">My Word</button>
                 <button class="guessWord-button" @click="clicked = 'guessWord'">Opponent's Word</button>
+
+                <!------ section where opponent guesses your secret word  ------>
                 <div class="myWord-container" v-show="clicked === 'myWord'">
                     <h2>My Word</h2>
                     <div class="wordChoice" v-if="myWord === ''">
+                        <!------ your secret word ------->
                         <h3>Choose a word for your opponent to guess</h3>
                         <word-input
                             @enter="enterWord"
@@ -34,12 +37,15 @@
                             @enter="enterWord"
                         ></word-input> -->
                     </div>
+
+
+                    <!------- section with opponent's guesses of your secret word ------------>
                     <div class="opponentGuesses" v-else>
                         <p>Secret word: {{myWord}} </p>
                         <div v-if="myWord !== ''">
-                            <ol v-for="word in opponentsGuesses" :key="word.id">
-                                <li>{{ word.word }} - {{ word.numCorrectLetters }}</li>
-                            </ol>
+                            <div v-for="word in opponentsGuesses" :key="word.id">
+                                <p>{{ word.id }}.  {{ word.word }} - {{ word.numCorrectLetters }}</p>
+                            </div>
                         </div>
                         <word-input id="opponents-guess"
                             @enter="enterWord"
@@ -55,7 +61,7 @@
                     
                 </div>
 
-
+                <!------- guess opponent's word section ----------->
 
 
                 <div class="guessWord-container" v-show="clicked === 'guessWord'">
