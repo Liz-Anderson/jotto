@@ -161,6 +161,10 @@ Players keep track on paper of each guess and result, crossing out letters of th
 
         },
 
+        newGame() {
+            location.reload()
+        },
+
         next(e) {
             
             e.target?.nextSibling?.focus()

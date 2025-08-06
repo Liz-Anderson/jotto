@@ -16,6 +16,7 @@
             <header>
                 <h1>Jotto!</h1>
                 <button @click="jottoRules">How to play Jotto</button>
+                <button @click="newGame">New Game</button>
             </header>
             <main>
 
@@ -43,8 +44,8 @@
                     <div class="opponentGuesses" v-else>
                         <p>Secret word: {{myWord}} </p>
                         <div v-if="myWord !== ''">
-                            <div v-for="word in opponentsGuesses" :key="word.id">
-                                <p>{{ word.id }}.  {{ word.word }} - {{ word.numCorrectLetters }}</p>
+                            <div v-for="[index, word] in opponentsGuesses.entries()" :key="word.id">
+                                <p>{{ index + 1 }}.  {{ word.word }} - {{ word.numCorrectLetters }}</p>
                             </div>
                         </div>
                         <word-input id="opponents-guess"
