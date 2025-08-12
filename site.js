@@ -240,19 +240,36 @@ app.component( 'word-input', {
         },
         next(e) {
             let regex = /^[a-zA-Z]+$/
-            console.log('this is the input event', e.data)
-            if (regex.test(e.data)){
+            console.log('this is the input event', e.data, "next data", e)
+            console.log(e.key, "this is the key")
+            // does not run next() if the key pressed is the delete button and validates that it is a letter not a number
+            if (e.inputType === "deleteContentBackward"){
+                console.log(e.inputType, "this should say deleteContentBackward")
+            } else if (regex.test(e.data)){
                 e.target?.nextSibling?.focus()
             } else {
                 console.log('try again')
             }
-            
           },
         last(e) {
-            console.log(e)
-            // e.target?.delete()
+            console.log("last function", e)
+            console.log("last function previous sibling", e.target?.previousSibling.name, `this.${e.target?.previousSibling.name}`)
+            let letterInput = e.target?.previousSibling.name
+            console.log("last letter", letterInput)
+            // deletes text in previous input when delete button is pressed
+            if (letterInput === 'letterFive'){
+                this.letterFive = ''
+            } else if (letterInput === 'letterFour'){
+                this.letterFour = ''
+            } else if (letterInput === 'letterThree'){
+                this.letterThree = ''
+            } else if (letterInput === 'letterTwo'){
+                this.letterTwo = ''
+            } else if (letterInput === 'letterOne'){
+                this.letterOne = ''
+            }
             e.target?.previousSibling?.focus()
-
+            e.target?.previousSibling?.select()
         }
     }
     
