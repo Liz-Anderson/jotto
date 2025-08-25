@@ -207,7 +207,7 @@ app.component( 'word-input', {
     },
     template:`
         <div>
-            <input type="text" name="letterOne" id="input1" class="letterInput" v-model="letterOne" maxlength="1" @input="next">
+            <input type="text" name="letterOne" id="input1" class="letterInput" v-model="letterOne" maxlength="1" @input="next" autofocus>
                 
             <input type="text" name="letterTwo" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             
