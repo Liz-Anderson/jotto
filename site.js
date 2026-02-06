@@ -3,8 +3,11 @@
 const app = Vue.createApp({
     data() {
         return {
+            // alphabet: [
+            //     {name: 'A', pick: 0}, {name: 'B', pick: 0}, {name: 'C', pick: 0}, {name: 'D', pick: 0}, {name: 'E', pick: 0}, {name: 'F', pick: 0}, {name: 'G', pick: 0}, {name: 'H', pick: 0}, {name: 'I', pick: 0}, {name: 'J', pick: 0}, {name: 'K', pick: 0}, {name: 'L', pick: 0}, {name: 'M', pick: 0}, {name: 'N', pick: 0}, {name: 'O', pick: 0}, {name: 'P', pick: 0}, {name: 'Q', pick: 0}, {name: 'R', pick: 0}, {name: 'S', pick: 0}, {name: 'T', pick: 0}, {name: 'U', pick: 0}, {name: 'V', pick: 0}, {name: 'W', pick: 0}, {name: 'X', pick: 0}, {name: 'Y', pick: 0}, {name: 'Z', pick: 0}
+            // ],
             alphabet: [
-                {name: 'A', pick: 0}, {name: 'B', pick: 0}, {name: 'C', pick: 0}, {name: 'D', pick: 0}, {name: 'E', pick: 0}, {name: 'F', pick: 0}, {name: 'G', pick: 0}, {name: 'H', pick: 0}, {name: 'I', pick: 0}, {name: 'J', pick: 0}, {name: 'K', pick: 0}, {name: 'L', pick: 0}, {name: 'M', pick: 0}, {name: 'N', pick: 0}, {name: 'O', pick: 0}, {name: 'P', pick: 0}, {name: 'Q', pick: 0}, {name: 'R', pick: 0}, {name: 'S', pick: 0}, {name: 'T', pick: 0}, {name: 'U', pick: 0}, {name: 'V', pick: 0}, {name: 'W', pick: 0}, {name: 'X', pick: 0}, {name: 'Y', pick: 0}, {name: 'Z', pick: 0}
+                {name: 'A', pick: "unselectedLetter"}, {name: 'B', pick: "unselectedLetter"}, {name: 'C', pick: "unselectedLetter"}, {name: 'D', pick: "unselectedLetter"}, {name: 'E', pick: "unselectedLetter"}, {name: 'F', pick: "unselectedLetter"}, {name: 'G', pick: "unselectedLetter"}, {name: 'H', pick: "unselectedLetter"}, {name: 'I', pick: "unselectedLetter"}, {name: 'J', pick: "unselectedLetter"}, {name: 'K', pick: "unselectedLetter"}, {name: 'L', pick: "unselectedLetter"}, {name: 'M', pick: "unselectedLetter"}, {name: 'N', pick: "unselectedLetter"}, {name: 'O', pick: "unselectedLetter"}, {name: 'P', pick: "unselectedLetter"}, {name: 'Q', pick: "unselectedLetter"}, {name: 'R', pick: "unselectedLetter"}, {name: 'S', pick: "unselectedLetter"}, {name: 'T', pick: "unselectedLetter"}, {name: 'U', pick: "unselectedLetter"}, {name: 'V', pick: "unselectedLetter"}, {name: 'W', pick: "unselectedLetter"}, {name: 'X', pick: "unselectedLetter"}, {name: 'Y', pick: "unselectedLetter"}, {name: 'Z', pick: "unselectedLetter"}
             ],
             wordInfo: [],
             myWord: '',
@@ -19,10 +22,17 @@ const app = Vue.createApp({
     },
     methods: {
         pickLetter(letter){
-            if(letter.pick === 0 || letter.pick === 1){
-                letter.pick++
+            // if(letter.pick === 0 || letter.pick === 1){
+            //     letter.pick++
+            // } else {
+            //     letter.pick = 0
+            // }
+            if (letter.pick === "unselectedLetter"){
+                letter.pick = "letterOut"
+            } else if (letter.pick === "letterOut"){
+                letter.pick = "letterIn"
             } else {
-                letter.pick = 0
+                letter.pick = "unselectedLetter"
             }
         },
 

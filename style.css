@@ -8,3 +8,13 @@ body {
     text-transform: uppercase;
     /* pointer-events: none; */
 }
+
+.letterIn {
+    background-color: yellow;
+    border: bold;
+}
+
+.letterOut {
+    text-decoration: line-through;
+    background-color: gray;
+}

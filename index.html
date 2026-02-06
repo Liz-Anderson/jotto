@@ -70,7 +70,7 @@
 
                     <p> {{alphabet}}</p>
                     <div class="alphabet">
-                        <button v-for="letter in alphabet" :key="letter.name" @click="pickLetter(letter)">{{letter.name}} - {{ letter.pick }}</button>
+                        <button :class="letter.pick" v-for="letter in alphabet" :key="letter.name" @click="pickLetter(letter)">{{letter.name}}</button>
                     </div>
                     <p>{{ myGuesses }}</p>
                     <p>guess mystery word</p>
