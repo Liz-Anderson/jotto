@@ -32,6 +32,7 @@
                         <h3>Choose a word for your opponent to guess</h3>
                         <word-input
                             @enter="enterWord"
+                            autocomplete="off"
                         ></word-input>
                        
                         <!-- <word-input
@@ -50,6 +51,7 @@
                         </div>
                         <word-input id="opponents-guess"
                             @enter="enterWord"
+                            autocomplete="off"
                         ></word-input>
                         <p>this is the word info: {{currentWord}}</p>
                         <p>this is the target word {{ myWord}} </p>
@@ -68,14 +70,15 @@
                 <div class="guessWord-container" v-show="clicked === 'guessWord'">
                     <h2>Guess Opponent's Word</h2>
 
-                    <p> {{alphabet}}</p>
-                    <div class="alphabet">
-                        <button :class="letter.pick" v-for="letter in alphabet" :key="letter.name" @click="pickLetter(letter)">{{letter.name}}</button>
+                    <!-- <p> {{alphabet}}</p> -->
+                    <div>
+                        <button class="alphabet" :class="letter.pick" v-for="letter in alphabet" :key="letter.name" @click="pickLetter(letter)">{{letter.name}}</button>
                     </div>
                     <p>{{ myGuesses }}</p>
                     <p>guess mystery word</p>
                     <word-input
                         @enter="enterWord" 
+                        autocomplete="off"
                     ></word-input>
 
                 </div>

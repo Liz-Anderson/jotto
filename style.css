@@ -3,6 +3,12 @@ body {
     touch-action: manipulation;
 }
 
+.alphabet {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
 .letterInput {
     width: 20px;
     text-transform: uppercase;
@@ -10,7 +16,7 @@ body {
 }
 
 .letterIn {
-    background-color: yellow;
+    background-color: hotpink;
     border: bold;
 }
 
