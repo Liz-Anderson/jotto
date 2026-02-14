@@ -3,9 +3,7 @@
 const app = Vue.createApp({
     data() {
         return {
-            // alphabet: [
-            //     {name: 'A', pick: 0}, {name: 'B', pick: 0}, {name: 'C', pick: 0}, {name: 'D', pick: 0}, {name: 'E', pick: 0}, {name: 'F', pick: 0}, {name: 'G', pick: 0}, {name: 'H', pick: 0}, {name: 'I', pick: 0}, {name: 'J', pick: 0}, {name: 'K', pick: 0}, {name: 'L', pick: 0}, {name: 'M', pick: 0}, {name: 'N', pick: 0}, {name: 'O', pick: 0}, {name: 'P', pick: 0}, {name: 'Q', pick: 0}, {name: 'R', pick: 0}, {name: 'S', pick: 0}, {name: 'T', pick: 0}, {name: 'U', pick: 0}, {name: 'V', pick: 0}, {name: 'W', pick: 0}, {name: 'X', pick: 0}, {name: 'Y', pick: 0}, {name: 'Z', pick: 0}
-            // ],
+     
             alphabet: [
                 {name: 'A', pick: "unselectedLetter"}, {name: 'B', pick: "unselectedLetter"}, {name: 'C', pick: "unselectedLetter"}, {name: 'D', pick: "unselectedLetter"}, {name: 'E', pick: "unselectedLetter"}, {name: 'F', pick: "unselectedLetter"}, {name: 'G', pick: "unselectedLetter"}, {name: 'H', pick: "unselectedLetter"}, {name: 'I', pick: "unselectedLetter"}, {name: 'J', pick: "unselectedLetter"}, {name: 'K', pick: "unselectedLetter"}, {name: 'L', pick: "unselectedLetter"}, {name: 'M', pick: "unselectedLetter"}, {name: 'N', pick: "unselectedLetter"}, {name: 'O', pick: "unselectedLetter"}, {name: 'P', pick: "unselectedLetter"}, {name: 'Q', pick: "unselectedLetter"}, {name: 'R', pick: "unselectedLetter"}, {name: 'S', pick: "unselectedLetter"}, {name: 'T', pick: "unselectedLetter"}, {name: 'U', pick: "unselectedLetter"}, {name: 'V', pick: "unselectedLetter"}, {name: 'W', pick: "unselectedLetter"}, {name: 'X', pick: "unselectedLetter"}, {name: 'Y', pick: "unselectedLetter"}, {name: 'Z', pick: "unselectedLetter"}
             ],
@@ -21,12 +19,10 @@ const app = Vue.createApp({
 
     },
     methods: {
+
+        // creating three different classes for styling
         pickLetter(letter){
-            // if(letter.pick === 0 || letter.pick === 1){
-            //     letter.pick++
-            // } else {
-            //     letter.pick = 0
-            // }
+   
             if (letter.pick === "unselectedLetter"){
                 letter.pick = "letterOut"
             } else if (letter.pick === "letterOut"){
@@ -77,7 +73,6 @@ Players keep track on paper of each guess and result, crossing out letters of th
         // trying to work around the async of javascript
         catchPayload(payload){
             this.wordInfo = payload
-            console.log("poop")
             this.enterWord(this.wordInfo)
             console.log("word info", this.wordInfo)
         },
@@ -161,10 +156,30 @@ Players keep track on paper of each guess and result, crossing out letters of th
             // -------------------- my guesses --------------------------------------------
             } else {
                 // these are my guesses of the secret word my opponent chose for me
-                console.log('payload:', typeof(currentWord))
-                this.myGuesses.push(currentWord)
-                console.log('my guesses are', this.myGuesses)
-                console.log('my guess', currentWord)
+                // alert for guessing same word twice
+                if (this.myGuesses.includes(currentWord["word"])){
+                    console.log("There is something in the opponentsGuessedWordArray!", this.myGuesses, currentWord["word"])
+                    alert("You already guesses that word!")
+                    this.focusInputOne()
+
+                // alert for guessing a word that is not between 2-5 letters long
+                } else if (this.guessLength(currentWord["word"]) === false){
+                    alert("Please enter a guess that is 2 - 5 letters long!")
+                    this.focusInputOne()
+
+                // alert if the guessed word has duplicate letters
+                } else if (this.isUnique(currentWord["word"]) === false){
+                    alert("Please enter a word where there are no duplicate letters!")
+                    this.focusInputOne()
+
+                } else {
+                    console.log('payload:', typeof(currentWord))
+                    this.myGuesses.push(currentWord)
+                    console.log('my guesses are', this.myGuesses)
+                    console.log('my guess', currentWord)
+
+                }
+                
             }
             this.currentWord = currentWord["word"]
             this.focusInputOne()
@@ -189,6 +204,7 @@ Players keep track on paper of each guess and result, crossing out letters of th
         focus() {
             document.onload = function() {  
                 document.getElementById("input-one").focus();
+                console.log('input-1 is somewhere??????')
             }
         }
 
@@ -215,9 +231,10 @@ app.component( 'word-input', {
             numCorrectLetters: 0,
         }
     },
+    
     template:`
         <div>
-            <input type="text" name="letterOne" id="input1" class="letterInput" v-model="letterOne" maxlength="1" @input="next" autofocus>
+            <input type="text" name="letterOne" id="input1" class="letterInput input1" v-model="letterOne" maxlength="1" @input="next" autofocus>
                 
             <input type="text" name="letterTwo" class="letterInput" v-model="letterTwo" maxlength="1" @keyup.delete="last" @keyup.enter="enterWord" @input="next">
             

@@ -3,6 +3,9 @@ body {
     touch-action: manipulation;
 }
 
+button {
+    color: black;
+}
 
 
 .alphabet {
@@ -10,8 +13,9 @@ body {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    color: black;
     border: 2px solid black;
+    background-color: white;
+    
 }
 
 .letterInput {
@@ -22,10 +26,10 @@ body {
 
 .letterIn {
     background-color: hotpink;
-    border: bold;
+    border: 4px solid black;
 }
 
 .letterOut {
     text-decoration: line-through;
-    background-color: gray;
+    background-color: rgb(191, 188, 188);
 }
